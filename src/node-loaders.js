@@ -36,8 +36,12 @@ var FileSystemLoader = Loader.extend({
         if(opts.watch) {
             // Watch all the templates in the paths and fire an event when
             // they change
+            var options = {};
+            if(opts.watch !== null && typeof opts.watch === 'object'){
+                options = opts.watch;
+            }
             var paths = this.searchPaths.filter(function(p) { return existsSync(p); });
-            var watcher = chokidar.watch(paths);
+            var watcher = chokidar.watch(paths, options);
             var _this = this;
             watcher.on('all', function(event, fullname) {
                 fullname = path.resolve(fullname);
